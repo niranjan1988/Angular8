@@ -13,5 +13,7 @@ ingredients: Ingredient[] = [new Ingredient('Apples', 5),
 
   ngOnInit() {
   }
-
+  addIngredient(ingredient) {
+    this.ingredients.push(ingredient);
+  }
 }

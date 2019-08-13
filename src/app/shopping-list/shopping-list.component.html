@@ -1,4 +1,4 @@
-<app-shopping-edit></app-shopping-edit>
+<app-shopping-edit (addIngredient)="addIngredient($event)"></app-shopping-edit>
 <br>
 <ul class="list-group">
     <a *ngFor="let ingredient of ingredients" class="list-group-item clearfix">

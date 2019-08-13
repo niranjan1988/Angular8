@@ -1,10 +1,11 @@
-<button class="btn btn-primary">New Recipe</button>
-<hr>
 <div class="row">
     <div class="col-md-5">
-        <app-recipes-list></app-recipes-list>
+        <app-recipes-list (recipeForDetail)="recipeForDetail =$event"></app-recipes-list>
     </div>
     <div class="col-md-7">
-        <app-recipes-detail></app-recipes-detail>
+        <app-recipes-detail [recipe]='recipeForDetail' *ngIf="recipeForDetail; else NoRecipe"></app-recipes-detail>
+        <ng-template #NoRecipe>
+            <p>Please Select a Recipe.</p>
+        </ng-template>
     </div>
 </div>

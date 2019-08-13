@@ -8,14 +8,14 @@ import { Recipe } from '../recipe';
 })
 export class RecipesListComponent implements OnInit {
   @Output() recipeForDetail = new EventEmitter<Recipe>();
-  recipes: Recipe[] = [new Recipe('Burger', 'Burger Desc', 'https://bit.ly/2Korf5J'),
-                       new Recipe('Burger', 'Burger Desc', 'https://bit.ly/2YRGJmJ')];
+  recipes: Recipe[] = [new Recipe('A Test Recipe', 'This is simply a test', 'https://bit.ly/2Korf5J'),
+                       new Recipe('Another Test Recipe', 'This is simply a test', 'https://bit.ly/2YRGJmJ')];
   constructor() { }
 
   ngOnInit() {
   }
 
-  sendRecipeForDetail(recipe:Recipe) {
+  sendRecipeForDetail(recipe: Recipe) {
     this.recipeForDetail.emit(recipe);
   }
 
