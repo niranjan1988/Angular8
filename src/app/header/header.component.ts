@@ -11,13 +11,4 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  OnClick(type) {
-    if (type === 'recipe') {
-      this.isRecipe.emit(true);
-    } else {
-      this.isRecipe.emit(false);
-    }
-  }
-
 }
