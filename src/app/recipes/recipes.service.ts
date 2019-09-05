@@ -50,4 +50,8 @@ export class RecipeService {
        this.slService.addIngredients(ingredients);
     }
 
+    getRecipeByID(index: number) {
+        return this.recipes[index];
+    }
+
 }
