@@ -16,5 +16,19 @@ export class RecipeEditComponent implements OnInit {
       this.id = +params.id;
     });
   }
+  onDeleteIngredient() {
 
+  }
+
+  onAddIngredient() {
+
+  }
+
+  onSubmit() {
+
+  }
+
+  onCancel() {
+    
+  }
 }

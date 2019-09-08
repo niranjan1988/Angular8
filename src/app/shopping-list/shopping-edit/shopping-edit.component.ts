@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import { ShoppingService } from '../shoppingList.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -8,18 +9,45 @@ import { ShoppingService } from '../shoppingList.service';
   styleUrls: ['./shopping-edit.component.css']
 })
 export class ShoppingEditComponent implements OnInit {
-  @ViewChild('nameInput', { static: false }) name: ElementRef;
-  @ViewChild('amountInput', { static: false }) amount: ElementRef;
+  @ViewChild('f', { static: false }) shoppingEditForm: NgForm;
+  editItem: Ingredient;
+  editMode = false;
+  editIndex: number;
 
-  constructor(private slService: ShoppingService) { }
+  constructor(private shoppingService: ShoppingService) { }
 
-  ngOnInit() {  }
+  ngOnInit() {
+    this.shoppingService.ingredientToEdit.subscribe((index: number) => {
+      this.editItem = this.shoppingService.getIngredient(index);
+      this.editMode = true;
+      this.editIndex = index;
+      this.shoppingEditForm.setValue({
+        name: this.editItem.name,
+        amount: this.editItem.amount
+      })
+    })
+  }
 
-  onAddIngredient() {
-    const name = this.name.nativeElement.value;
-    const amount = this.amount.nativeElement.value;
-    const ingredient = new Ingredient(name, amount);
-    this.slService.addIngredient(ingredient);
+  onAddIngredient(form: NgForm) {
+    const value = form.value;
+    const ingredient = new Ingredient(value.name, value.amount);
+    if (this.editMode) {
+      this.shoppingService.UpdateExistingIngredient(this.editIndex, ingredient);
+      this.editMode = false;
+      this.shoppingEditForm.reset();
+    } else {
+      this.shoppingService.addIngredient(ingredient);
+    }
+  }
+
+  resetForm() {
+    this.shoppingEditForm.reset();
+  }
+
+  deleteIngredient(index: number) {
+    this.shoppingService.deleteIngredient(index);
+    this.editMode = false;
+    this.shoppingEditForm.reset();
   }
 
 }
