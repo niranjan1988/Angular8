@@ -11,21 +11,30 @@ import { NgForm, FormGroup, FormControl } from '@angular/forms';
 })
 export class RecipeEditComponent implements OnInit {
   id: number;
-  recipeToEdit: Recipe;
+
   recipeForm: FormGroup;
-  // @ViewChild('recipeForm', { static: true }) recipeForm: NgForm;
+  editMode: boolean;
 
   constructor(private route: ActivatedRoute, private recipeService: RecipeService) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.id = +params.id;
+      this.editMode = this.id != null;
     });
-    this.recipeToEdit = this.recipeService.getRecipeByID(this.id);
+    // 
+
+  }
+
+  private onInit() {
+    let recipeToEdit: Recipe = null;
+    if (this.editMode) {
+      recipeToEdit = this.recipeService.getRecipeByID(this.id);
+    }
     this.recipeForm = new FormGroup({
-      name : new FormControl(this.recipeToEdit.name),
-      imagePath : new FormControl(this.recipeToEdit.imageUrl),
-      description : new FormControl(this.recipeToEdit.description)
+      name: new FormControl(recipeToEdit.name),
+      imagePath: new FormControl(recipeToEdit.imageUrl),
+      description: new FormControl(recipeToEdit.description)
     });
   }
   onDeleteIngredient() {
