@@ -57,8 +57,8 @@ export class RecipeEditComponent implements OnInit {
     });
   }
 
-  onDeleteIngredient(i: number) {
-    // (<FormArray>this.recipeForm.get('ingredients')).
+  onDeleteIngredient(index: number) {
+    (this.recipeForm.get('ingredients') as FormArray).removeAt(index);
   }
 
   onAddIngredient() {
@@ -71,15 +71,17 @@ export class RecipeEditComponent implements OnInit {
 
   onSubmit() {
     const newRecipe = new Recipe(this.recipeForm.value['name'],
-      this.recipeForm.value['imagePath'],
       this.recipeForm.value['description'],
-      this.recipeForm.value('ingredients'));
+      this.recipeForm.value['imagePath'],
+      this.recipeForm.value['ingredients']
+    );
 
     if (this.editMode) {
-      this.recipeService.addRecipe(newRecipe);
-    } else {
       this.recipeService.updateRecipe(this.id, newRecipe);
+    } else {
+      this.recipeService.addRecipe(newRecipe);
     }
+    this.onCancel();
   }
 
   onCancel() {

@@ -7,18 +7,19 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class RecipeService {
     selectedRecipe = new Subject<Recipe>();
+    recipesChanged = new Subject<Recipe[]>();
 
     private recipes: Recipe[] = [
         new Recipe(
             'A Test Recipe',
             'This is simply a test',
-            'https://bit.ly/2Korf5J',
+            'https://joyfoodsunshine.com/wp-content/uploads/2016/09/easy-pizza-casserole-recipe-4-500x500.jpg',
             [new Ingredient('bread', 20),
             new Ingredient('Meat', 15)
             ]),
         new Recipe('Another Test Recipe',
             'This is simply a test',
-            'https://bit.ly/2YRGJmJ',
+            'https://img.bestrecipes.com.au/LRV-X-2Y/w643-h428-cfill-q90/br/2018/04/delicious-spotty-dotty-cookies-recipe-521147-1.jpg',
             [new Ingredient('chicken', 2),
             new Ingredient('Prawn', 25)
             ]),
@@ -41,22 +42,29 @@ export class RecipeService {
 
     addRecipe(recipe: Recipe) {
         this.recipes.push(recipe);
+        this.recipesChanged.next(this.recipes);
     }
 
     updateRecipe(index: number, recipe: Recipe) {
         this.recipes[index] = recipe;
+        this.recipesChanged.next(this.recipes);
     }
 
-    getRecipe() {
+    getRecipes() {
         return this.recipes.slice();
     }
 
     addIngredientsToShoppingList(ingredients: Ingredient[]) {
         this.slService.addIngredients(ingredients);
+        this.recipesChanged.next(this.recipes);
     }
 
     getRecipeByID(index: number) {
         return this.recipes[index];
     }
 
+    deleteRecipe(index: number) {
+        this.recipes.splice(index, 1);
+        this.recipesChanged.next(this.recipes);
+    }
 }
