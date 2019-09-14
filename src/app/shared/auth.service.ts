@@ -1,11 +1,11 @@
 export class AuthService {
-  isLoggedIn: boolean;
+  isLoggedIn = false;
 
   isAuthenticated() {
     const promise = new Promise((resolve, reject) => {
       setInterval(() => {
         resolve(this.isLoggedIn);
-      }, 1000);
+      }, 10);
     });
     return promise;
   }

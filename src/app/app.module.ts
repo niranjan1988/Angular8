@@ -16,6 +16,9 @@ import { ShoppingService } from './shopping-list/shoppingList.service';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { RecipeService } from './recipes/recipes.service';
+import { AuthguardService } from './shared/authguard.service';
+import { AuthService } from './shared/auth.service';
+import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate-guard';
 
 
 @NgModule({
@@ -36,10 +39,9 @@ import { RecipeService } from './recipes/recipes.service';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule,
-    AppRoutingModule
+    AppRoutingModule    
   ],
-  providers: [ShoppingService,RecipeService],
+  providers: [ShoppingService,RecipeService,AuthguardService,AuthService,CanDeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

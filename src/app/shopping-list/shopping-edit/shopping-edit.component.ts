@@ -13,8 +13,9 @@ export class ShoppingEditComponent implements OnInit {
   editItem: Ingredient;
   editMode = false;
   editIndex: number;
-
+  
   constructor(private shoppingService: ShoppingService) { }
+
 
   ngOnInit() {
     this.shoppingService.ingredientToEdit.subscribe((index: number) => {
@@ -34,20 +35,30 @@ export class ShoppingEditComponent implements OnInit {
     if (this.editMode) {
       this.shoppingService.UpdateExistingIngredient(this.editIndex, ingredient);
       this.editMode = false;
-      this.shoppingEditForm.reset();
+      this.resetForm()
     } else {
       this.shoppingService.addIngredient(ingredient);
     }
+    
   }
 
   resetForm() {
     this.shoppingEditForm.reset();
+    this.isChangesSaved();
   }
 
   deleteIngredient(index: number) {
     this.shoppingService.deleteIngredient(index);
     this.editMode = false;
-    this.shoppingEditForm.reset();
+    this.resetForm();
+  }
+
+  isChangesSaved(){
+    if( this.shoppingEditForm.value['name'] || this.shoppingEditForm.value['amount']) {
+      this.shoppingService.isChangesSaved.next(false);
+    } else {
+      this.shoppingService.isChangesSaved.next(true);
+    }
   }
 
 }
