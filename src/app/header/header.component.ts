@@ -1,5 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../shared/auth.service';
+import { DataStorageService } from '../shared/data-storage.service';
+import { Recipe } from '../recipes/recipe.model';
+import { RecipeService } from '../recipes/recipes.service';
 
 @Component({
   selector: 'app-header',
@@ -10,24 +13,34 @@ export class HeaderComponent implements OnInit {
   isLoggedIn = false;
   @Output() isRecipe = new EventEmitter<boolean>();
 
-  constructor(private authService:AuthService) { }
+  constructor(private authService: AuthService, private dataStorageService: DataStorageService, private recipeService: RecipeService) { }
 
   ngOnInit() {
     this.checkAuthentication();
   }
 
-  logIn(){
+  saveData() {
+    this.dataStorageService.storeRecipes().subscribe(response => {
+      console.log(response);
+    });
+  }
+
+  fetchRecipes() {
+    this.dataStorageService.fetchRecipes();
+  }
+
+  logIn() {
     this.authService.logIn();
     this.checkAuthentication();
   }
 
-  logOff(){
+  logOff() {
     this.authService.logOff();
     this.checkAuthentication();
   }
   checkAuthentication() {
-    this.authService.isAuthenticated().then((isLoggedIn:boolean)=>{
-      this.isLoggedIn=isLoggedIn;
+    this.authService.isAuthenticated().then((isLoggedIn: boolean) => {
+      this.isLoggedIn = isLoggedIn;
     })
   }
 

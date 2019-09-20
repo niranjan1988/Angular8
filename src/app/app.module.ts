@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,9 +40,10 @@ import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule    
+    HttpClientModule,
+    AppRoutingModule
   ],
-  providers: [ShoppingService,RecipeService,AuthguardService,AuthService,CanDeactivateGuard],
+  providers: [ShoppingService, RecipeService, AuthguardService, AuthService, CanDeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
