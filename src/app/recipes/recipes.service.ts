@@ -9,7 +9,7 @@ export class RecipeService {
     selectedRecipe = new Subject<Recipe>();
     recipesChanged = new Subject<Recipe[]>();
 
-    private recipes: Recipe[];
+    private recipes: Recipe[] = [];
     //  = [
     //     new Recipe(
     //         'A Test Recipe',
