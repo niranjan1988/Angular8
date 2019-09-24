@@ -20,6 +20,8 @@ import { RecipeService } from './recipes/recipes.service';
 import { AuthguardService } from './shared/authguard.service';
 import { AuthService } from './shared/auth.service';
 import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate-guard';
+import { AuthComponent } from './Auth/auth.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate
     HeaderComponent,
     DropdownDirective,
     RecipeStartComponent,
-    RecipeEditComponent
+    RecipeEditComponent,
+    AuthComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,

@@ -14,6 +14,13 @@
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link" routerLink="/shop" >Shopping list</a>
             </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="/auth" >Authenticate</a>
+            </li>            
+            <li class="nav-item active" style="cursor: pointer">
+                <a class="nav-link" (click)="isLoggedIn?logOff():logIn()">{{isLoggedIn?"Log-off":"Log-in"}}
+                </a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -23,10 +30,6 @@
                     <a class="dropdown-item" (click)="saveData()">Save Data</a>
                     <a class="dropdown-item" (click)="fetchRecipes()">Fetch Data</a>
                 </div>
-            </li>
-            <li class="nav-item active" style="cursor: pointer">
-                <a class="nav-link" (click)="isLoggedIn?logOff():logIn()">{{isLoggedIn?"Log-off":"Log-in"}}
-                </a>
             </li>
         </ul>
     </div>
