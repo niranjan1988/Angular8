@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../shared/auth.service';
 import { DataStorageService } from '../shared/data-storage.service';
 import { RecipeService } from '../recipes/recipes.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -13,7 +14,9 @@ export class HeaderComponent implements OnInit {
   isAuthenticated = false;
   @Output() isRecipe = new EventEmitter<boolean>();
 
-  constructor(private authService: AuthService, private dataStorageService: DataStorageService, private recipeService: RecipeService) { }
+  constructor(private authService: AuthService,
+     private dataStorageService: DataStorageService,
+     private router:Router) { }
 
   ngOnInit() {
     this.authService.user.subscribe(userInfo => {
@@ -29,5 +32,10 @@ export class HeaderComponent implements OnInit {
 
   fetchRecipes() {
     this.dataStorageService.fetchRecipes().subscribe();
+  }
+
+  signoff() {
+    this.authService.Signoff();
+    this.router.navigate(['/auth']);
   }
 }
