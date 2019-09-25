@@ -13,7 +13,7 @@ import { AuthComponent } from './Auth/auth.component';
 const appRoutes: Routes = [
   { path: '', redirectTo: '/recipe', pathMatch: 'full' },
   {
-    path: 'recipe', canActivateChild:[AuthguardService], component: RecipesComponent, children: [
+    path: 'recipe', canActivateChild: [AuthguardService], component: RecipesComponent, children: [
       { path: '', component: RecipeStartComponent },
       { path: 'new', component: RecipeEditComponent },
       { path: ':id', component: RecipesDetailComponent, resolve: [RecipeResolverService] },
