@@ -23,6 +23,7 @@ import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate
 import { AuthComponent } from './Auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './Auth/auth-interceptor.service';
+import { AlertComponent } from './shared/alert/alert.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { AuthInterceptorService } from './Auth/auth-interceptor.service';
     RecipeStartComponent,
     RecipeEditComponent,
     AuthComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

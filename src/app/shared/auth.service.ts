@@ -89,7 +89,7 @@ export class AuthService {
     if (!errResponse.error || !errResponse.error.error) {
       return throwError(errMessage);
     }
-    switch (errResponse.error.message) {
+    switch (errResponse.error.error.message) {
       case 'EMAIL_EXISTS':
         errMessage = 'This email exists already';
         break;
