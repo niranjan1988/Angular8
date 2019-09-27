@@ -4,7 +4,7 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipesDetailComponent } from './recipes/recipes-detail/recipes-detail.component';
-import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
+import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { AuthguardService } from './shared/authguard.service';
 import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate-guard';
 import { RecipeResolverService } from './recipes/recipes-resolver.service';
