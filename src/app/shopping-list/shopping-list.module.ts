@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
-import { CanDeactivateGuard } from './shopping-edit/can-deactivate-guard';
-import { ShoppingListComponent } from './shopping-list.component';
+import { SharedModule } from '../shared/shared.module';
 import { ShoppingEditComponent } from './shopping-edit/shopping-edit.component';
-import { CommonModule } from '@angular/common';
+import { ShoppingListComponent } from './shopping-list.component';
+
 
 @NgModule({
     declarations: [
@@ -13,13 +13,14 @@ import { CommonModule } from '@angular/common';
         ShoppingEditComponent
     ],
     imports: [
-        CommonModule,
+        SharedModule,
         FormsModule,
-        RouterModule,
-        RouterModule.forChild([
-            { path: 'shop', canDeactivate: [CanDeactivateGuard], component: ShoppingListComponent }
-        ])
-       
+        RouterModule
+              
+    ],
+    exports: [
+        ShoppingListComponent,
+        ShoppingEditComponent
     ]
 })
 export class ShoppingListModule { }

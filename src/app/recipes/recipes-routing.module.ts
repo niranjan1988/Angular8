@@ -14,8 +14,7 @@ const routes: Routes = [{
         { path: ':id', component: RecipesDetailComponent, resolve: [RecipeResolverService] },
         { path: ':id/edit', component: RecipeEditComponent, resolve: [RecipeResolverService] }
     ]
-}
-];
+}];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
