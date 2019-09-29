@@ -10,19 +10,15 @@ import { RecipesModule } from './recipes/recipes.module';
 import { RecipeService } from './recipes/recipes.service';
 import { AuthService } from './shared/auth.service';
 import { AuthguardService } from './shared/authguard.service';
-import { DropdownDirective } from './shared/dropdown.directive';
 import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate-guard';
 import { ShoppingService } from './shopping-list/shoppingList.service';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { AuthModule } from './Auth/auth.module';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    DropdownDirective
+    HeaderComponent    
   ],
   imports: [
     BrowserModule,
