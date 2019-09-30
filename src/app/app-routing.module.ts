@@ -12,14 +12,14 @@ import { AuthComponent } from './Auth/auth.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/recipe', pathMatch: 'full' },
-  // {
-  //   path: 'recipe', canActivateChild: [AuthguardService], component: RecipesComponent, children: [
-  //     { path: '', component: RecipeStartComponent },
-  //     { path: 'new', component: RecipeEditComponent },
-  //     { path: ':id', component: RecipesDetailComponent, resolve: [RecipeResolverService] },
-  //     { path: ':id/edit', component: RecipeEditComponent, resolve: [RecipeResolverService] }
-  //   ]
-  // },
+  {
+    path: 'recipe', canActivateChild: [AuthguardService], component: RecipesComponent, children: [
+      { path: '', component: RecipeStartComponent },
+      { path: 'new', component: RecipeEditComponent },
+      { path: ':id', component: RecipesDetailComponent, resolve: [RecipeResolverService] },
+      { path: ':id/edit', component: RecipeEditComponent, resolve: [RecipeResolverService] }
+    ]
+  },
   { path: 'shop',canDeactivate:[CanDeactivateGuard], component: ShoppingListComponent },
   { path: 'auth', component: AuthComponent },
   { path: '**', redirectTo: '/' }
