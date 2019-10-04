@@ -14,6 +14,8 @@ import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate
 import { ShoppingService } from './shopping-list/shoppingList.service';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { AuthModule } from './Auth/auth.module';
+import { StoreModule } from '@ngrx/store';
+import { ShoppingListReducer } from './shopping-list/store/shopping-list.reducer';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { AuthModule } from './Auth/auth.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    StoreModule.forRoot({shoppingList :ShoppingListReducer}),
     AppRoutingModule,
     RecipesModule,
     ShoppingListModule,

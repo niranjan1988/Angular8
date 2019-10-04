@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import { ShoppingService } from '../shoppingList.service';
 import { NgForm } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import * as shoppingListActions from './../store/shopping-list.actions';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -14,7 +16,8 @@ export class ShoppingEditComponent implements OnInit {
   editMode = false;
   editIndex: number;
   
-  constructor(private shoppingService: ShoppingService) { }
+  constructor(private shoppingService: ShoppingService,
+    private store: Store<{shoppingList:{ingredients:Ingredient[]}}>) { }
 
 
   ngOnInit() {
@@ -29,15 +32,16 @@ export class ShoppingEditComponent implements OnInit {
     })
   }
 
-  onAddIngredient(form: NgForm) {
+  onSubmitForm(form: NgForm) {
     const value = form.value;
     const ingredient = new Ingredient(value.name, value.amount);
     if (this.editMode) {
-      this.shoppingService.UpdateExistingIngredient(this.editIndex, ingredient);
+      this.store.dispatch(new shoppingListActions.UpdateIngredients({index:this.editIndex,ingredient:ingredient}))
       this.editMode = false;
       this.resetForm()
     } else {
-      this.shoppingService.addIngredient(ingredient);
+      this.store.dispatch(new shoppingListActions.AddIngredient(ingredient));
+      this.resetForm();
     }
     
   }
@@ -48,8 +52,10 @@ export class ShoppingEditComponent implements OnInit {
   }
 
   deleteIngredient(index: number) {
-    this.shoppingService.deleteIngredient(index);
+    this.store.dispatch(new shoppingListActions.DeleteIngredients(index))
     this.editMode = false;
+
+
     this.resetForm();
   }
 
