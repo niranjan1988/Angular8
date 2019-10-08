@@ -9,26 +9,26 @@ export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 
 export class AddIngredient implements Action {
     readonly type = ADD_INGREDIENT;
-    constructor(public payload:Ingredient) {}
+    constructor(public payload: Ingredient) { }
 }
 
 export class AddIngredients implements Action {
-    readonly type = ADD_INGREDIENTS; 
-    constructor(public payload:Ingredient[]) {}
+    readonly type = ADD_INGREDIENTS;
+    constructor(public payload: Ingredient[]) { }
 }
 
 export class UpdateIngredients implements Action {
-    readonly type = UPDATE_INGREDIENT; 
-    constructor(public payload:{index:number,ingredient:Ingredient}) {}
+    readonly type = UPDATE_INGREDIENT;
+    constructor(public payload: { index: number, ingredient: Ingredient }) { }
 }
 
 export class DeleteIngredients implements Action {
-    readonly type = DELETE_INGREDIENT; 
-    constructor(public payload:number) {}
+    readonly type = DELETE_INGREDIENT;
+    constructor(public payload: number) { }
 }
 
 
-export type shoppingListActionsType = AddIngredient 
-                                    | AddIngredients 
-                                    | UpdateIngredients 
-                                    | DeleteIngredients;
+export type shoppingListActionsType = AddIngredient
+    | AddIngredients
+    | UpdateIngredients
+    | DeleteIngredients;

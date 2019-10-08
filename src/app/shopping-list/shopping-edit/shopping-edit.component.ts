@@ -15,9 +15,8 @@ export class ShoppingEditComponent implements OnInit {
   editItem: Ingredient;
   editMode = false;
   editIndex: number;
-  
-  constructor(private shoppingService: ShoppingService,
-    private store: Store<{shoppingList:{ingredients:Ingredient[]}}>) { }
+
+  constructor(private shoppingService: ShoppingService, private store: Store<{ shoppingList: { ingredients: Ingredient[] } }>) { }
 
 
   ngOnInit() {
@@ -28,22 +27,22 @@ export class ShoppingEditComponent implements OnInit {
       this.shoppingEditForm.setValue({
         name: this.editItem.name,
         amount: this.editItem.amount
-      })
-    })
+      });
+    });
   }
 
   onSubmitForm(form: NgForm) {
     const value = form.value;
     const ingredient = new Ingredient(value.name, value.amount);
     if (this.editMode) {
-      this.store.dispatch(new shoppingListActions.UpdateIngredients({index:this.editIndex,ingredient:ingredient}))
+      this.store.dispatch(new shoppingListActions.UpdateIngredients({ index: this.editIndex, ingredient }));
       this.editMode = false;
-      this.resetForm()
+      this.resetForm();
     } else {
       this.store.dispatch(new shoppingListActions.AddIngredient(ingredient));
       this.resetForm();
     }
-    
+
   }
 
   resetForm() {
@@ -52,15 +51,15 @@ export class ShoppingEditComponent implements OnInit {
   }
 
   deleteIngredient(index: number) {
-    this.store.dispatch(new shoppingListActions.DeleteIngredients(index))
+    this.store.dispatch(new shoppingListActions.DeleteIngredients(index));
     this.editMode = false;
 
 
     this.resetForm();
   }
 
-  isChangesSaved(){
-    if( this.shoppingEditForm.value['name'] || this.shoppingEditForm.value['amount']) {
+  isChangesSaved() {
+    if (this.shoppingEditForm.value['name'] || this.shoppingEditForm.value['amount']) {
       this.shoppingService.isChangesSaved.next(false);
     } else {
       this.shoppingService.isChangesSaved.next(true);

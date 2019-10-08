@@ -4,7 +4,8 @@ import { ShoppingService } from './shoppingList.service';
 import { CanDeactivateGuard } from './shopping-edit/can-deactivate-guard';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as shoppingListActions from './../shopping-list/store/shopping-list.actions'
+import * as shoppingListActions from './../shopping-list/store/shopping-list.actions';
+import * as AppState from '../../app/app.store';
 
 @Component({
   selector: 'app-shopping-list',
@@ -14,12 +15,11 @@ import * as shoppingListActions from './../shopping-list/store/shopping-list.act
 export class ShoppingListComponent implements OnInit, CanDeactivateGuard {
   ingredients: Observable<{ingredients: Ingredient[]}>;
   isChanesSaved = true;
-  constructor(private shoppingService: ShoppingService,
-    private store: Store<{shoppingList:{ingredients:Ingredient[]}}>) { }
+  constructor(private shoppingService: ShoppingService, private store: Store<AppState.IAppState>) { }
 
   ngOnInit() {
     this.ingredients = this.store.select('shoppingList');
-  
+
     this.shoppingService.isChangesSaved.subscribe((issaved: boolean) => {
       this.isChanesSaved = issaved;
     });

@@ -1,13 +1,19 @@
 import { Ingredient } from '../../shared/ingredient.model';
-import { Action } from '@ngrx/store';
-
 import * as shoppingListActions from './shopping-list.actions';
 
-const initialState = {
+export interface ShoppingList {
+    ingredients: Ingredient[];
+    editingShoppingItem: Ingredient;
+    editItemIndex: number;
+}
+
+const initialState: ShoppingList = {
     ingredients: [
         new Ingredient('Apples', 5),
         new Ingredient('Tomatoes', 7)
-    ]
+    ],
+    editingShoppingItem : null,
+    editItemIndex : -1
 };
 
 export function ShoppingListReducer(state = initialState, action: shoppingListActions.shoppingListActionsType) {
@@ -27,7 +33,7 @@ export function ShoppingListReducer(state = initialState, action: shoppingListAc
             const updatedIngredient = {
                 ...ingredient,
                 ...action.payload.ingredient
-            }
+            };
             const updatedIngredients = { ...state.ingredients };
             updatedIngredients[action.payload.index] = updatedIngredient;
             return {
@@ -38,7 +44,7 @@ export function ShoppingListReducer(state = initialState, action: shoppingListAc
             return {
                 ...state,
                 ingredients: state.ingredients.filter((item, itemiIndex) => {
-                    return itemiIndex != action.payload;
+                    return itemiIndex !== action.payload;
                 })
             };
 

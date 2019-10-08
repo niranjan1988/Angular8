@@ -20,14 +20,14 @@ import { ShoppingListReducer } from './shopping-list/store/shopping-list.reducer
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent    
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot({shoppingList :ShoppingListReducer}),
+    StoreModule.forRoot({ shoppingList: ShoppingListReducer }),
     AppRoutingModule,
     RecipesModule,
     ShoppingListModule,

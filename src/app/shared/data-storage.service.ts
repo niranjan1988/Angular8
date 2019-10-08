@@ -17,7 +17,7 @@ export class DataStorageService {
     }
 
     fetchRecipes() {
-        return this.http.get<Recipe[]>(this.webURL + 'recipes.json').pipe(          
+        return this.http.get<Recipe[]>(this.webURL + 'recipes.json').pipe(
             map((recipes: Recipe[]) => {
                 return recipes.map(recipe => {
                     return {
