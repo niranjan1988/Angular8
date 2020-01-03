@@ -16,11 +16,14 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { AuthModule } from './Auth/auth.module';
 import { StoreModule } from '@ngrx/store';
 import { ShoppingListReducer } from './shopping-list/store/shopping-list.reducer';
+import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
+import { AlertComponent } from './shared/alert/alert.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    PlaceholderDirective
   ],
   imports: [
     BrowserModule,
@@ -45,6 +48,7 @@ import { ShoppingListReducer } from './shopping-list/store/shopping-list.reducer
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AlertComponent]
 })
 export class AppModule { }
