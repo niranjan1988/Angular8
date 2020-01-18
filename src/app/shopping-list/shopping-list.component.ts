@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Ingredient } from '../shared/ingredient.model';
-import { ShoppingService } from './shoppingList.service';
 import { CanDeactivateGuard } from './shopping-edit/can-deactivate-guard';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -12,17 +11,13 @@ import * as AppState from '../../app/app.store';
   templateUrl: './shopping-list.component.html',
   styleUrls: ['./shopping-list.component.css']
 })
-export class ShoppingListComponent implements OnInit, CanDeactivateGuard {
-  ingredients: Observable<{ingredients: Ingredient[]}>;
+export class ShoppingListComponent implements OnInit, OnDestroy, CanDeactivateGuard {
+  ingredients: Observable<{ ingredients: Ingredient[] }>;
   isChanesSaved = true;
-  constructor(private shoppingService: ShoppingService, private store: Store<AppState.IAppState>) { }
+  constructor(private store: Store<AppState.IAppState>) { }
 
   ngOnInit() {
-    this.ingredients = this.store.select('shoppingList');
-
-    this.shoppingService.isChangesSaved.subscribe((issaved: boolean) => {
-      this.isChanesSaved = issaved;
-    });
+   this.ingredients = this.store.select('shoppingList');
   }
 
   addIngredient(ingredient: Ingredient) {
@@ -30,7 +25,7 @@ export class ShoppingListComponent implements OnInit, CanDeactivateGuard {
   }
 
   editItem(index: number) {
-    this.shoppingService.ingredientToEdit.next(index);
+    this.store.dispatch(new shoppingListActions.StartEdit(index));
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
@@ -40,5 +35,8 @@ export class ShoppingListComponent implements OnInit, CanDeactivateGuard {
     } else {
       return true;
     }
+  }
+  ngOnDestroy(): void {
+    this.store.dispatch(new shoppingListActions.StopEdit());
   }
 }

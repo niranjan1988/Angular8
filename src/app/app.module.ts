@@ -11,7 +11,6 @@ import { RecipeService } from './recipes/recipes.service';
 import { AuthService } from './shared/auth.service';
 import { AuthguardService } from './shared/authguard.service';
 import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate-guard';
-import { ShoppingService } from './shopping-list/shoppingList.service';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { AuthModule } from './Auth/auth.module';
 import { StoreModule } from '@ngrx/store';
@@ -37,7 +36,6 @@ import { AlertComponent } from './shared/alert/alert.component';
     AuthModule
   ],
   providers: [
-    ShoppingService,
     RecipeService,
     AuthguardService,
     AuthService,
