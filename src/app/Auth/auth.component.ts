@@ -1,6 +1,6 @@
 import { Component, OnInit, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService, authResponse } from '../shared/auth.service';
+import { AuthService, AuthResponse } from '../shared/auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AlertComponent } from '../shared/alert/alert.component';
@@ -30,7 +30,7 @@ export class AuthComponent implements OnInit {
       const email = form.value.email;
       const password = form.value.password;
       this.isLoading = true;
-      let response: Observable<authResponse>;
+      let response: Observable<AuthResponse>;
       if (this.isLoginMode) {
         response = this.authService.signIn(email, password);
       } else {
