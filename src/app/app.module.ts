@@ -2,21 +2,21 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppReducer } from './app.store';
 import { AuthInterceptorService } from './Auth/auth-interceptor.service';
+import { AuthModule } from './Auth/auth.module';
 import { HeaderComponent } from './header/header.component';
 import { RecipesModule } from './recipes/recipes.module';
 import { RecipeService } from './recipes/recipes.service';
+import { AlertComponent } from './shared/alert/alert.component';
 import { AuthService } from './shared/auth.service';
 import { AuthguardService } from './shared/authguard.service';
+import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
 import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate-guard';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
-import { AuthModule } from './Auth/auth.module';
-import { StoreModule } from '@ngrx/store';
-import { ShoppingListReducer } from './shopping-list/store/shopping-list.reducer';
-import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
-import { AlertComponent } from './shared/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,7 @@ import { AlertComponent } from './shared/alert/alert.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot({ shoppingList: ShoppingListReducer }),
+    StoreModule.forRoot(AppReducer),
     AppRoutingModule,
     RecipesModule,
     ShoppingListModule,
