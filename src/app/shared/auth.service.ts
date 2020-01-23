@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as AppState from '../app.store';
 import * as fromAuthActions from '../Auth/store/auth.actions';
+import { environment } from 'src/environments/environment';
 
 export interface AuthResponse {
   kind: string;
@@ -59,7 +60,7 @@ export class AuthService {
 
   signup(email: string, password: string) {
     return this.http.post<AuthResponse>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCbQXzgprcrO0wMrAmU-C1cKIgM3dLdggo',
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.API_KEY,
       {
         email,
         password,
@@ -71,14 +72,22 @@ export class AuthService {
 
   signIn(email: string, password: string) {
     return this.http.post<AuthResponse>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCbQXzgprcrO0wMrAmU-C1cKIgM3dLdggo',
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.API_KEY,
       {
         email,
         password,
         returnSecureToken: true
-      }).pipe(catchError(this.handleError), tap(resData => {
-        this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
-      }));
+      }
+    )
+      .pipe(
+        catchError(this.handleError),
+        tap(resData => {
+          this.handleAuthentication(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            +resData.expiresIn);
+        }));
   }
 
   handleAuthentication(email: string, id: string, token: string, expiresIn: number) {

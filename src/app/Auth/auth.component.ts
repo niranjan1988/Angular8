@@ -30,13 +30,13 @@ export class AuthComponent implements OnInit {
       const email = form.value.email;
       const password = form.value.password;
       this.isLoading = true;
-      let response: Observable<AuthResponse>;
+      let authObs: Observable<AuthResponse>;
       if (this.isLoginMode) {
-        response = this.authService.signIn(email, password);
+        authObs = this.authService.signIn(email, password);
       } else {
-        response = this.authService.signup(email, password)
+        authObs = this.authService.signup(email, password);
       }
-      response.subscribe(response => {
+      authObs.subscribe(response => {
         console.log(response);
         this.isLoading = false;
         this.router.navigate(['/recipe']);

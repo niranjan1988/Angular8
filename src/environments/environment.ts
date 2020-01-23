@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  URL : 'https://angular8-ca404.firebaseio.com/'
+  URL : 'https://angular8-1f0d3.firebaseio.com/',
+  API_KEY: 'AIzaSyBq4H2pIFJfYW4lSEGRxN3VDKHUswyxZQ0'
 };
 
 /*
