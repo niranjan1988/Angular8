@@ -1,6 +1,6 @@
 import { Component, OnInit, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService, AuthResponse } from '../shared/auth.service';
+import { AuthService, authResponse } from '../shared/auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AlertComponent } from '../shared/alert/alert.component';
@@ -30,13 +30,13 @@ export class AuthComponent implements OnInit {
       const email = form.value.email;
       const password = form.value.password;
       this.isLoading = true;
-      let authObs: Observable<AuthResponse>;
+      let response: Observable<authResponse>;
       if (this.isLoginMode) {
-        authObs = this.authService.signIn(email, password);
+        response = this.authService.signIn(email, password);
       } else {
-        authObs = this.authService.signup(email, password);
+        response = this.authService.signup(email, password)
       }
-      authObs.subscribe(response => {
+      response.subscribe(response => {
         console.log(response);
         this.isLoading = false;
         this.router.navigate(['/recipe']);

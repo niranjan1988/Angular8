@@ -14,7 +14,7 @@ import { ShoppingListComponent } from './shopping-list.component';
     imports: [
         SharedModule,
         FormsModule,
-        RouterModule
+        RouterModule              
     ],
     exports: [
         ShoppingListComponent,
