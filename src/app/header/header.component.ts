@@ -1,8 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../shared/auth.service';
 import { DataStorageService } from '../shared/data-storage.service';
-import { RecipeService } from '../recipes/recipes.service';
 import { Router } from '@angular/router';
+import * as AppState from '../../app/app.store';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -15,11 +17,12 @@ export class HeaderComponent implements OnInit {
   @Output() isRecipe = new EventEmitter<boolean>();
 
   constructor(private authService: AuthService,
-     private dataStorageService: DataStorageService,
-     private router:Router) { }
+              private dataStorageService: DataStorageService,
+              private router: Router,
+              private store: Store<AppState.IAppState>) { }
 
   ngOnInit() {
-    this.authService.user.subscribe(userInfo => {
+    this.store.select('auth').pipe(map(authState => authState.user)).subscribe(userInfo => {
       this.isAuthenticated = !!userInfo;
     });
   }

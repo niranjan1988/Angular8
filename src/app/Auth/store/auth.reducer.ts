@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { User } from '../user.model';
 import * as fromAuthActions from './auth.actions';
 
@@ -29,6 +28,6 @@ export function authReducer(
 
 
     default:
-      break;
+      return { ...state };
   }
 }

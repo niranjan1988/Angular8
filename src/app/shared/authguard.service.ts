@@ -3,14 +3,17 @@ import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnaps
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { take, map } from 'rxjs/operators';
+import * as AppState from '../../app/app.store';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AuthguardService implements CanActivate, CanActivateChild {
   isAuthenticated = false;
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private store: Store<AppState.IAppState>) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.authService.user.pipe(
+    return this.store.select('auth').pipe(
       take(1),
+      map(authState => authState.user),
       map(userInfo => {
         this.isAuthenticated = !!userInfo;
         if (this.isAuthenticated) {
