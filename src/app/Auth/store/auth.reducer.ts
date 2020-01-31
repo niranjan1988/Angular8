@@ -46,6 +46,28 @@ export function authReducer(
         authError: action.payload
       };
 
+      case fromAuthActions.SIGNUP:
+      const userCreated = new User(action.payload.email, action.payload.userId, action.payload.token, action.payload.expirationDate);
+      return {
+        ...state,
+        userCreated,
+        loading: false
+      };
+
+    case fromAuthActions.SIGNUP_START:
+      return {
+        ...state,
+        authError: null,
+        loading: true
+      };
+
+    case fromAuthActions.LOGIN_FAILED:
+      return {
+        ...state,
+        loading: false,
+        authError: action.payload
+      };
+
     default:
       return { ...state };
   }

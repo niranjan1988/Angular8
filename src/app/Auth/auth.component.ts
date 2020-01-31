@@ -1,13 +1,11 @@
-import { Component, OnInit, ComponentFactoryResolver, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService, AuthResponse } from '../shared/auth.service';
-import { Observable, Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import * as AppState from '../app.store';
 import { AlertComponent } from '../shared/alert/alert.component';
 import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
-import { Store } from '@ngrx/store';
 import * as AuthActions from './store/auth.actions';
-import * as AppState from '../app.store';
 
 @Component({
   selector: 'app-auth',
@@ -21,8 +19,6 @@ export class AuthComponent implements OnInit {
   private closeSub: Subscription;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
     private componentFactoryResolver: ComponentFactoryResolver,
     private store: Store<AppState.IAppState>
   ) { }
@@ -42,19 +38,18 @@ export class AuthComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if (form.valid) {
+    if (!form.valid) {
+      return;
+    } else {
       const email = form.value.email;
       const password = form.value.password;
       this.isLoading = true;
-      let response: Observable<AuthResponse>;
       if (this.isLoginMode) {
         this.store.dispatch(new AuthActions.LoginStart({ email, password }));
       } else {
-        response = this.authService.signup(email, password);
+        this.store.dispatch(new AuthActions.SignupStart({ email, password }));
       }
       form.reset();
-    } else {
-      return;
     }
   }
 
