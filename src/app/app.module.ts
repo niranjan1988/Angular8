@@ -17,6 +17,8 @@ import { AuthguardService } from './shared/authguard.service';
 import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
 import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate-guard';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './Auth/store/auth.effects';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
     ReactiveFormsModule,
     HttpClientModule,
     StoreModule.forRoot(AppReducer),
+    EffectsModule.forRoot([AuthEffects]),
     AppRoutingModule,
     RecipesModule,
     ShoppingListModule,

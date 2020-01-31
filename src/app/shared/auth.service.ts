@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import * as AppState from '../../app/app.store';
 import * as AuthActions from '../Auth/store/auth.actions';
 
-export interface authResponse {
+export interface AuthResponse {
   kind: string;
   idToken: string;
   email: string;
@@ -40,12 +40,12 @@ export class AuthService {
     if (!userData) {
       return;
     } else {
-      const user = new User(userData.email, userData.id, userData._token, new Date(userData._tokenExpirationDate));
+      const user = new User(userData.email, userData.userId, userData._token, new Date(userData._tokenExpirationDate));
       if (user.token) {
         this.store.dispatch(
           new AuthActions.Login({
             email: userData.email,
-            id: userData.id,
+            userId: userData.userId,
             token: userData.token,
             expirationDate: new Date(userData._tokenExpirationDate)
           }));
@@ -63,7 +63,7 @@ export class AuthService {
   }
 
   signup(email: string, password: string) {
-    return this.http.post<authResponse>(
+    return this.http.post<AuthResponse>(
       'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCbQXzgprcrO0wMrAmU-C1cKIgM3dLdggo',
       {
         email,
@@ -74,25 +74,19 @@ export class AuthService {
       }));
   }
 
-  signIn(email: string, password: string) {
-    return this.http.post<authResponse>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCbQXzgprcrO0wMrAmU-C1cKIgM3dLdggo',
-      {
-        email,
-        password,
-        returnSecureToken: true
-      }).pipe(catchError(this.handleError), tap(resData => {
-        this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
-      }));
-  }
+  // signIn(email: string, password: string) {
+  //   .pipe(catchError(this.handleError), tap(resData => {
+  //       this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
+  //     }));
+  // }
 
-  handleAuthentication(email: string, id: string, token: string, expiresIn: number) {
+  handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-    const user = new User(email, id, token, expirationDate);
+    const user = new User(email, userId, token, expirationDate);
     this.store.dispatch(
       new AuthActions.Login({
         email,
-        id,
+        userId,
         token,
         expirationDate
       }));
@@ -111,6 +105,9 @@ export class AuthService {
         break;
       case 'EMAIL_NOT_FOUND':
         errMessage = 'This email doesnt exist.';
+        break;
+      case 'INVALID_PASSWORD':
+        errMessage = 'This password is not correct.';
         break;
       default:
         errMessage = 'Unknown error occured';
