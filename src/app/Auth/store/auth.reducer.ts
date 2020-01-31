@@ -3,13 +3,13 @@ import * as fromAuthActions from './auth.actions';
 
 export interface AuthState {
   user: User;
-  loginStart: boolean;
-  loginFailed: boolean;
+  loading: boolean;
+  authError: string;
 }
 const initialState: AuthState = {
   user: null,
-  loginStart: false,
-  loginFailed: false
+  loading: false,
+  authError: null
 };
 
 export function authReducer(
@@ -17,33 +17,33 @@ export function authReducer(
   action: fromAuthActions.AuthActions
 ) {
   switch (action.type) {
-    case fromAuthActions.LOGIN_START:
-      return {
-        ...state,
-        loginFailed: false,
-        loginStart: true
-      };
 
     case fromAuthActions.LOGIN:
-      const user = new User(action.payload.email, action.payload.id, action.payload.token, action.payload.expirationDate);
+      const user = new User(action.payload.email, action.payload.userId, action.payload.token, action.payload.expirationDate);
       return {
         ...state,
-        user
-      };
-
-    case fromAuthActions.LOGIN_FAILED:
-
-      return {
-        ...state,
-        loginStart: false,
-        loginFailed: true
+        user,
+        loading: false
       };
 
     case fromAuthActions.LOGOUT:
       return {
         ...state,
         user: null
+      };
 
+    case fromAuthActions.LOGIN_START:
+      return {
+        ...state,
+        authError: null,
+        loading: true
+      };
+
+    case fromAuthActions.LOGIN_FAILED:
+      return {
+        ...state,
+        loading: false,
+        authError: action.payload
       };
 
     default:
