@@ -75,13 +75,7 @@ export class AuthService {
   }
 
   signIn(email: string, password: string) {
-    return this.http.post<authResponse>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCbQXzgprcrO0wMrAmU-C1cKIgM3dLdggo',
-      {
-        email,
-        password,
-        returnSecureToken: true
-      }).pipe(catchError(this.handleError), tap(resData => {
+    .pipe(catchError(this.handleError), tap(resData => {
         this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
       }));
   }
