@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
-import { throwError, Subject, BehaviorSubject } from 'rxjs';
-import { User } from '../Auth/user.model';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as AppState from '../../app/app.store';
-import * as AuthActions from '../Auth/store/auth.actions';
+import * as AuthActions from './../Auth/store/auth.actions';
 
 export interface AuthResponse {
   kind: string;
@@ -20,98 +15,19 @@ export interface AuthResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  // user = new BehaviorSubject<User>(null);
   logoutTimer: any;
+  constructor(private store: Store<AppState.IAppState>) { }
 
-  constructor(private http: HttpClient, private router: Router, private store: Store<AppState.IAppState>) { }
-
-  Signoff() {
-    this.store.dispatch(new AuthActions.Logout());
-    localStorage.removeItem('userData');
-    this.router.navigate(['/auth']);
-    if (this.logoutTimer) {
-      clearTimeout(this.logoutTimer);
-    }
-    this.logoutTimer = null;
-  }
-
-  autoLogin() {
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    if (!userData) {
-      return;
-    } else {
-      const user = new User(userData.email, userData.userId, userData._token, new Date(userData._tokenExpirationDate));
-      if (user.token) {
-        this.store.dispatch(
-          new AuthActions.Login({
-            email: userData.email,
-            userId: userData.userId,
-            token: userData.token,
-            expirationDate: new Date(userData._tokenExpirationDate)
-          }));
-
-        const timeLeftToExpire = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
-        this.autoLogout(timeLeftToExpire);
-      }
-    }
-  }
-
-  autoLogout(expirationtime: number) {
+  setLogoutTimer(expirationtime: number) {
     this.logoutTimer = setTimeout(() => {
-      this.Signoff();
+      this.store.dispatch(new AuthActions.Logout());
     }, expirationtime);
   }
 
-  signup(email: string, password: string) {
-    return this.http.post<AuthResponse>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCbQXzgprcrO0wMrAmU-C1cKIgM3dLdggo',
-      {
-        email,
-        password,
-        returnSecureToken: true
-      }).pipe(catchError(this.handleError), tap(resData => {
-        this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
-      }));
-  }
-
-  // signIn(email: string, password: string) {
-  //   .pipe(catchError(this.handleError), tap(resData => {
-  //       this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
-  //     }));
-  // }
-
-  handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
-    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-    const user = new User(email, userId, token, expirationDate);
-    this.store.dispatch(
-      new AuthActions.Login({
-        email,
-        userId,
-        token,
-        expirationDate
-      }));
-    localStorage.setItem('userData', JSON.stringify(user));
-    this.autoLogout(expiresIn * 1000);
-  }
-
-  handleError(errResponse) {
-    let errMessage = 'An unexpected error occured';
-    if (!errResponse.error || !errResponse.error.error) {
-      return throwError(errMessage);
+  clearLogoutTimer() {
+    if (this.logoutTimer) {
+      clearTimeout(this.logoutTimer);
+      this.logoutTimer = null;
     }
-    switch (errResponse.error.error.message) {
-      case 'EMAIL_EXISTS':
-        errMessage = 'This email exists already';
-        break;
-      case 'EMAIL_NOT_FOUND':
-        errMessage = 'This email doesnt exist.';
-        break;
-      case 'INVALID_PASSWORD':
-        errMessage = 'This password is not correct.';
-        break;
-      default:
-        errMessage = 'Unknown error occured';
-    }
-    return throwError(errMessage);
   }
 }

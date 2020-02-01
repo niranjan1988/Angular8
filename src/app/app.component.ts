@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './shared/auth.service';
+import * as AppState from './app.store';
+import { Store } from '@ngrx/store';
+import * as AuthActions from './Auth/store/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +9,9 @@ import { AuthService } from './shared/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(private authService:AuthService){}
-  ngOnInit(): void {
-    this.authService.autoLogin();
-  }
   title = 'my-first-angular8-app';
-  
-  
+  constructor(private  store: Store<AppState.IAppState>) { }
+  ngOnInit(): void {
+    this.store.dispatch(new AuthActions.AutoLogin());
+  }
 }
