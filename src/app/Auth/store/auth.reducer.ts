@@ -33,27 +33,6 @@ export function authReducer(
       };
 
     case fromAuthActions.LOGIN_START:
-      return {
-        ...state,
-        authError: null,
-        loading: true
-      };
-
-    case fromAuthActions.LOGIN_FAILED:
-      return {
-        ...state,
-        loading: false,
-        authError: action.payload
-      };
-
-      case fromAuthActions.SIGNUP:
-      const userCreated = new User(action.payload.email, action.payload.userId, action.payload.token, action.payload.expirationDate);
-      return {
-        ...state,
-        userCreated,
-        loading: false
-      };
-
     case fromAuthActions.SIGNUP_START:
       return {
         ...state,
@@ -62,10 +41,32 @@ export function authReducer(
       };
 
     case fromAuthActions.LOGIN_FAILED:
+    case fromAuthActions.SIGNUP_FAILED:
       return {
         ...state,
+        user: null,
         loading: false,
         authError: action.payload
+      };
+
+    case fromAuthActions.SIGNUP:
+      const userCreated = new User(action.payload.email, action.payload.userId, action.payload.token, action.payload.expirationDate);
+      return {
+        ...state,
+        userCreated,
+        loading: false
+      };
+
+    case fromAuthActions.CLEAR_ERROR:
+      return {
+        ...state,
+        authError: null
+      };
+
+      case fromAuthActions.CLEAR_ERROR:
+      return {
+        ...state,
+        authError: null
       };
 
     default:

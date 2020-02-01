@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import * as AppState from '../../app/app.store';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import * as AuthActions from '../Auth/store/auth.actions';
 
 
 @Component({
@@ -38,7 +39,6 @@ export class HeaderComponent implements OnInit {
   }
 
   signoff() {
-    this.authService.Signoff();
-    this.router.navigate(['/auth']);
+    this.store.dispatch(new AuthActions.Logout());
   }
 }
