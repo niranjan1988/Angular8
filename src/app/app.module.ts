@@ -19,6 +19,9 @@ import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './Auth/store/auth.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,8 @@ import { AuthEffects } from './Auth/store/auth.effects';
     HttpClientModule,
     StoreModule.forRoot(AppReducer),
     EffectsModule.forRoot([AuthEffects]),
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+    // StoreRouterConnectingModule.forRoot(),
     AppRoutingModule,
     RecipesModule,
     ShoppingListModule,

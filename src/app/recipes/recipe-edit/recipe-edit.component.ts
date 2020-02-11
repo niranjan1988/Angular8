@@ -3,6 +3,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipes.service';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { switchMap, map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import * as Appstate from "./../../app.store";
 
 
 @Component({
@@ -16,19 +19,34 @@ export class RecipeEditComponent implements OnInit {
   recipeForm: FormGroup;
   editMode: boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router, private recipeService: RecipeService) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private recipeService: RecipeService,
+              private store: Store<Appstate.IAppState>) { }
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
-      this.id = +params.id;
+
+    this.route.params.pipe(
+      map(params => {
+        return +params.id;
+      }),
+      switchMap(id => {
+        this.id = id;
+        return this.store.select('recipe');
+      }),
+      map(recipeState => {
+        return recipeState.recipes.find(
+          (recipe, index) => {
+            return index === this.id;
+          });
+      })
+    ).subscribe(recipe => {
       this.editMode = this.id != null && !isNaN(this.id);
-      this.onInit();
+      this.onInit(recipe);
     });
-
-
   }
 
-  private onInit() {
+  private onInit(recipeToEdit: Recipe) {
 
     let recipeName = '';
     let recipeImageUrl = '';
@@ -36,7 +54,6 @@ export class RecipeEditComponent implements OnInit {
     const recipeIngredients = new FormArray([]);
 
     if (this.editMode) {
-      const recipeToEdit = this.recipeService.getRecipeByID(this.id);
       recipeName = recipeToEdit.name;
       recipeImageUrl = recipeToEdit.imageUrl;
       recipeDescription = recipeToEdit.description;
@@ -62,7 +79,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onAddIngredient() {
-    (<FormArray>this.recipeForm.get('ingredients')).push(
+    (this.recipeForm.get('ingredients') as FormArray).push(
       new FormGroup({
         'name': new FormControl('', [Validators.required]),
         'amount': new FormControl(null, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
