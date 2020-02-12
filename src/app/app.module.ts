@@ -10,7 +10,6 @@ import { AuthInterceptorService } from './Auth/auth-interceptor.service';
 import { AuthModule } from './Auth/auth.module';
 import { HeaderComponent } from './header/header.component';
 import { RecipesModule } from './recipes/recipes.module';
-import { RecipeService } from './recipes/recipes.service';
 import { AlertComponent } from './shared/alert/alert.component';
 import { AuthService } from './shared/auth.service';
 import { AuthguardService } from './shared/authguard.service';
@@ -45,7 +44,6 @@ import { RecipeEffects } from './recipes/store/recipe.effects';
     AuthModule
   ],
   providers: [
-    RecipeService,
     AuthguardService,
     AuthService,
     CanDeactivateGuard,

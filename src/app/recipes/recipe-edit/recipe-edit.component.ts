@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, switchMap } from 'rxjs/operators';
 import { Recipe } from '../recipe.model';
-import { RecipeService } from '../recipes.service';
 import * as recipesActions from '../store/recipe.action';
 import * as Appstate from './../../app.store';
 
@@ -21,7 +20,6 @@ export class RecipeEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private recipeService: RecipeService,
               private store: Store<Appstate.IAppState>) { }
 
   ngOnInit() {

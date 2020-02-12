@@ -1,12 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Recipe } from '../recipe.model';
-import { Ingredient } from 'src/app/shared/ingredient.model';
-import { RecipeService } from '../recipes.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import * as Appstate from './../../app.store';
 import { map, switchMap } from 'rxjs/operators';
+import { Ingredient } from 'src/app/shared/ingredient.model';
+import * as shoppingListActions from '../../shopping-list/store/shopping-list.actions';
+import { Recipe } from '../recipe.model';
 import * as recipesActions from '../store/recipe.action';
+import * as Appstate from './../../app.store';
 
 @Component({
   selector: 'app-recipes-detail',
@@ -18,8 +18,8 @@ export class RecipesDetailComponent implements OnInit {
   recipe: Recipe;
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private recipeService: RecipeService,
-              private store: Store<Appstate.IAppState>) {
+              private store: Store<Appstate.IAppState>
+    ) {
     this.route.params.pipe(
       map(params => {
         return +params.id;
@@ -42,7 +42,7 @@ export class RecipesDetailComponent implements OnInit {
   ngOnInit() { }
 
   addToShoppingList(ingredients: Ingredient[]) {
-    this.recipeService.addIngredientsToShoppingList(ingredients);
+    this.store.dispatch(new shoppingListActions.AddIngredients(ingredients));
   }
 
 
