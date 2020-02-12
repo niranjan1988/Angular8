@@ -6,6 +6,7 @@ import * as AppState from '../../app/app.store';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import * as AuthActions from '../Auth/store/auth.actions';
+import * as RecipeActions from './../recipes/store/recipe.action';
 
 
 @Component({
@@ -29,13 +30,11 @@ export class HeaderComponent implements OnInit {
   }
 
   saveData() {
-    this.dataStorageService.storeRecipes().subscribe(response => {
-      console.log(response);
-    });
+    this.store.dispatch(new RecipeActions.StoreRecipes());
   }
 
   fetchRecipes() {
-    this.dataStorageService.fetchRecipes().subscribe();
+    this.store.dispatch(new RecipeActions.FetchRecipe());
   }
 
   signoff() {

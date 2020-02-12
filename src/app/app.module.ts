@@ -10,7 +10,6 @@ import { AuthInterceptorService } from './Auth/auth-interceptor.service';
 import { AuthModule } from './Auth/auth.module';
 import { HeaderComponent } from './header/header.component';
 import { RecipesModule } from './recipes/recipes.module';
-import { RecipeService } from './recipes/recipes.service';
 import { AlertComponent } from './shared/alert/alert.component';
 import { AuthService } from './shared/auth.service';
 import { AuthguardService } from './shared/authguard.service';
@@ -19,6 +18,10 @@ import { CanDeactivateGuard } from './shopping-list/shopping-edit/can-deactivate
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './Auth/store/auth.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { environment } from 'src/environments/environment';
+import { RecipeEffects } from './recipes/store/recipe.effects';
 
 @NgModule({
   declarations: [
@@ -32,14 +35,15 @@ import { AuthEffects } from './Auth/store/auth.effects';
     ReactiveFormsModule,
     HttpClientModule,
     StoreModule.forRoot(AppReducer),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, RecipeEffects]),
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+    // StoreRouterConnectingModule.forRoot(),
     AppRoutingModule,
     RecipesModule,
     ShoppingListModule,
     AuthModule
   ],
   providers: [
-    RecipeService,
     AuthguardService,
     AuthService,
     CanDeactivateGuard,
