@@ -12,8 +12,8 @@ import * as recipesActions from './../recipes/store/recipe.action';
 export class DataStorageService {
   webURL = environment.URL;
   constructor(private http: HttpClient,
-    private recipeService: RecipeService,
-    private store: Store<AppState.IAppState>) { }
+              private recipeService: RecipeService,
+              private store: Store<AppState.IAppState>) { }
 
   storeRecipes() {
     const recipes = this.recipeService.getRecipes();
@@ -30,7 +30,7 @@ export class DataStorageService {
         });
       }),
       tap(recipes => {
-        this.store.dispatch(new recipesActions.SetRFecipes(recipes));
+        this.store.dispatch(new recipesActions.SetRecipes(recipes));
       })
     );
   }

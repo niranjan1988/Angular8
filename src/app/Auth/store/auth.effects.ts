@@ -49,9 +49,13 @@ export class AuthEffects {
   );
 
   @Effect({ dispatch: false })
-  authRedirect = this.actions$.pipe(ofType(fromAuthActions.LOGIN), tap(() => {
-    this.router.navigate(['/']);
-  }));
+  authRedirect = this.actions$.pipe(
+    ofType(fromAuthActions.LOGIN),
+    tap((authScuccess: AuthActions.Login) => {
+      if (authScuccess.payload.redirect) {
+        this.router.navigate(['/']);
+      }
+    }));
 
   @Effect()
   signUpStart = this.actions$.pipe(
@@ -106,7 +110,8 @@ export class AuthEffects {
           email: userData.email,
           userId: userData.id,
           token: userData._token,
-          expirationDate: new Date(userData._tokenExpirationDate)
+          expirationDate: new Date(userData._tokenExpirationDate),
+          redirect: false
         });
       }
       return { type: 'DUMMY' };
@@ -150,7 +155,8 @@ export class AuthEffects {
       email: resData.email,
       userId: resData.localId,
       token: resData.idToken,
-      expirationDate
+      expirationDate,
+      redirect: true
     });
   }
 }
