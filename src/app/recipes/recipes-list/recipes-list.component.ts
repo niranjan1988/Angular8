@@ -1,5 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Recipe } from '../recipe';
+import { Component, OnInit } from '@angular/core';
+import { Recipe } from '../recipe.model';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import * as AppState from './../../app.store'
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-recipes-list',
@@ -7,16 +12,24 @@ import { Recipe } from '../recipe';
   styleUrls: ['./recipes-list.component.css']
 })
 export class RecipesListComponent implements OnInit {
-  @Output() recipeForDetail = new EventEmitter<Recipe>();
-  recipes: Recipe[] = [new Recipe('Burger', 'Burger Desc', 'https://bit.ly/2Korf5J'),
-                       new Recipe('Burger', 'Burger Desc', 'https://bit.ly/2YRGJmJ')];
-  constructor() { }
+  subscription: Subscription;
+
+  recipes: Recipe[] = [];
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private store: Store<AppState.IAppState>) { }
 
   ngOnInit() {
+    this.subscription = this.store
+      .select('recipe')
+      .pipe(map(recipesState => recipesState.recipes))
+      .subscribe((recipes: Recipe[]) => {
+        this.recipes = recipes;
+      });
   }
 
-  sendRecipeForDetail(recipe:Recipe) {
-    this.recipeForDetail.emit(recipe);
+  onNewRecipeAdd() {
+    this.router.navigate(['new'], { relativeTo: this.route, });
   }
 
 }

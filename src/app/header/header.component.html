@@ -6,21 +6,29 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" (click)="OnClick('recipe')">Recipes <span class="sr-only">(current)</span></a>
+            <li class="nav-item active" routerLinkActive="active">
+                <a class="nav-link" routerLink="/recipe">Recipes
+                    <span class="sr-only">(current)</span>
+                </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" (click)="OnClick('shopping')">Shopping list</a>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="/shop">Shopping list</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            <li class="nav-item dropdown" *ngIf="isAuthenticated">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     Manage
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Save Data</a>
-                    <a class="dropdown-item" href="#">Fetch Data</a>
+                    <a class="dropdown-item" (click)="saveData()">Save Data</a>
+                    <a class="dropdown-item" (click)="fetchRecipes()">Fetch Data</a>
                 </div>
+            </li>
+            <li class="nav-item" routerLinkActive="active" *ngIf="!isAuthenticated">
+                <a class="nav-link" routerLink="/auth">Login</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated">
+                <a class="nav-link" (click)="signoff()">Logoff</a>
             </li>
         </ul>
     </div>

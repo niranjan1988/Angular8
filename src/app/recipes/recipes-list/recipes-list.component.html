@@ -1,2 +1,8 @@
-<app-recipe-item [recipe]='recipe' (recipeForDetail)="sendRecipeForDetail($event)" *ngFor="let recipe of recipes" class="list-group">    
+<div class="row">
+    <div class="col-xs-12">
+        <button class="btn btn-primary" (click)="onNewRecipeAdd()">New Recipe</button>
+    </div>
+</div>
+<br>
+<app-recipe-item [recipe]='recipe' [index]="i" *ngFor="let recipe of recipes;let i = index" class="list-group">
 </app-recipe-item>
